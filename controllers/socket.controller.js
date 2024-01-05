@@ -2,6 +2,8 @@ let socket = null;
 
 const init = (socket_io) => {
   return new Promise( (resolve) => {
+    if (socket) { resolve(socket);  }
+
     socket_io.on('connection', (_socket) => {
       console.log('connection');
       socket = _socket;
@@ -10,8 +12,8 @@ const init = (socket_io) => {
   });
 }
 
-const sendMessage = (data = 'test') => {
-  socket.emit("new-pair", data);
+const sendMessage = (eventName = 'event test', data = 'test') => {
+  socket.emit(eventName, data);
 }
 
 module.exports = {
