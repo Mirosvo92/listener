@@ -3,8 +3,11 @@ const ethers = require('ethers');
 
 
 let io = null;
+let factory = null;
+
 
 async function fnListener(token0, token1, pairAddress) {
+  let counter = 0;
   console.log(`
     New pair detected ${new Date()}
     =================
@@ -13,15 +16,17 @@ async function fnListener(token0, token1, pairAddress) {
     pairAddress: ${pairAddress}
   `);
   SocketController.sendMessage({token0, token1, pairAddress})
-  // counter++;
-  //
-  // if (counter === 20) {
-  //   factory.off('PairCreated', fnListener)
-  // }
+  counter++;
+
+  if (counter === 20) {
+    factory.off('PairCreated', fnListener)
+  }
 }
 
 const startListenNewPair = async (req, res) => {
-   await SocketController.init(io);
+  console.log('start');
+  await SocketController.init(io);
+  console.log('added SocketController');
 
   const addresses = {
     WBNB: '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c',
@@ -35,12 +40,10 @@ const startListenNewPair = async (req, res) => {
 //First address of this mnemonic must have enough BNB to pay for tx fess
   const mnemonic = process.env.mnemonic;
 
-  let counter = 0;
-
   const provider = new ethers.providers.WebSocketProvider(process.env.ankr,'mainnet');
   const wallet = ethers.Wallet.fromMnemonic(mnemonic);
   const account = wallet.connect(provider);
-  const factory = new ethers.Contract(
+  factory = new ethers.Contract(
     addresses.factory,
     ['event PairCreated(address indexed token0, address indexed token1, address pair, uint)'],
     account
@@ -54,11 +57,21 @@ const startListenNewPair = async (req, res) => {
   });
 }
 
+const stopListenerNewPair = (req, res) => {
+  factory.off('PairCreated', fnListener)
+
+  return res.send({
+    status: 200,
+    success: true,
+  });
+}
+
 const setIo = (_io) => {
   io = _io;
 };
 
 module.exports = {
   startListenNewPair,
-  setIo
+  setIo,
+  stopListenerNewPair
 }

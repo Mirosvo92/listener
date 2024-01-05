@@ -15,6 +15,7 @@ BNBListenerController.setIo(io);
 
 
 app.get('/listener/bnb', BNBListenerController.startListenNewPair);
+app.get('/stop-listener/bnb', BNBListenerController.startListenNewPair);
 
 // app.listen(3000);
 server.listen(3000);
