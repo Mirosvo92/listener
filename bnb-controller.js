@@ -20,33 +20,23 @@ async function checkBalance(address) {
     `https://rpc.ankr.com/eth/091f623b5879046b49683919326ad032b9c4aa31b20c2e7c6e4b9b355ec83ba4`,
     'mainnet'
   );
-  console.log(providerBsc);
-  console.log(providerETH);
+
   // Get the balance of the wallet
   const balanceBsc = await providerBsc.getBalance(walletAddress);
   const balanceETH = await providerETH.getBalance(walletAddress);
-  console.log(`Wallet balance: ${ethers.utils.formatEther(balanceBsc)} Bsc`);
-  console.log(`Wallet balance: ${ethers.utils.formatEther(balanceETH)} ETH`);
 
   return {
     BSC: ethers.utils.formatEther(balanceBsc),
     ETH: ethers.utils.formatEther(balanceETH),
   };
 }
-
 async function fnListener(contractAddress, param1, param2, event) {
-  try {
-    // const balance = await checkBalance(param2);
-    io.to(contractAddress).emit('new-contract-trans', { balance: { ETH: '0.4', BSC: '0.6' }, contractAddress });
-  } catch (error) {
-    console.log('ERROR');
-    console.log('ERROR');
-    console.log('ERROR');
-    console.log(error);
-    console.log('ERROR');
-    console.log('ERROR');
-    console.log('ERROR');
-  }
+  console.log('new transaction', event);
+  console.log('param1', param1);
+  console.log('param2', param2);
+  const symbol = 'BNB';
+  const balance = await checkBalance(param2);
+  io.to(contractAddress).emit('new-contract-trans', { balance, contractAddress, symbol });
 }
 
 class BNBController {
@@ -55,32 +45,13 @@ class BNBController {
   listeningContracts = {};
 
   createContract(contractAddress) {
-    try {
-      const provider = new ethers.providers.WebSocketProvider(
-        `https://rpc.ankr.com/ws/bsc/091f623b5879046b49683919326ad032b9c4aa31b20c2e7c6e4b9b355ec83ba4`,
-        'mainnet'
-      );
-      console.log('provider', provider);
-      provider.on('debug', (data) => {
-        if (data.error) {
-          console.log(error);
-        }
-      });
-
-      const contractABI = ['event Transfer(address indexed from, address indexed to, uint256 value)']; // Replace with your contract's ABI
-      const contract = new ethers.Contract(contractAddress, contractABI, provider);
-      console.log('contract', contract);
-
-      return contract;
-    } catch (error) {
-      console.log('ERROR');
-      console.log('ERROR');
-      console.log('ERROR');
-      console.log(error);
-      console.log('ERROR');
-      console.log('ERROR');
-      console.log('ERROR');
-    }
+    const provider = new ethers.providers.WebSocketProvider(
+      `wss://rpc.ankr.com/bsc/ws/091f623b5879046b49683919326ad032b9c4aa31b20c2e7c6e4b9b355ec83ba4`,
+      'mainnet'
+    );
+    const contractABI = ['event Transfer(address indexed from, address indexed to, uint256 value)']; // Replace with your contract's ABI
+    const contract = new ethers.Contract(contractAddress, contractABI, provider);
+    return contract;
   }
 
   listenNewPairs = async (socket) => {
@@ -140,17 +111,21 @@ class BNBController {
         'Transfer',
         this.listeningContracts[contractAddress].eventListener
       );
+    } else {
+      console.log(this.listeningContracts[contractAddress]);
+      console.log('This croom already exist, just connect socket to the room');
     }
 
     socket.join(contractAddress);
-    console.log('socket joined');
   };
 
-  stopListenTransactionsOnContract = async (contractAddress) => {
+  stopListenTransactionsOnContract = async (contractAddress, socket) => {
     console.log('stop listen transactions on contract', contractAddress);
     const contract = this.listeningContracts[contractAddress].contract;
     const eventListener = this.listeningContracts[contractAddress].eventListener;
+    // Delete listener and leave the room;
     contract.off('Transfer', eventListener);
+    socket.leave(contractAddress);
   };
 }
 

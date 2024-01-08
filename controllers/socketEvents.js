@@ -6,7 +6,7 @@ function handleSocketEvents(io) {
     console.log('connected');
     socket.on(events.ListenContractTransactions, (data) => bnbController.listenTransactionsOnContract(data, socket));
     socket.on(events.StopListenContractTransactions, (data) =>
-      bnbController.listenTransactionsOnContract(data, socket)
+      bnbController.stopListenTransactionsOnContract(data, socket)
     );
   });
 }
