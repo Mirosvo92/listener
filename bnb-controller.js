@@ -121,8 +121,8 @@ class BNBController {
 
   stopListenTransactionsOnContract = async (contractAddress, socket) => {
     console.log('stop listen transactions on contract', contractAddress);
-    const contract = this.listeningContracts[contractAddress].contract;
-    const eventListener = this.listeningContracts[contractAddress].eventListener;
+    const contract = this.listeningContracts[contractAddress]?.contract;
+    const eventListener = this.listeningContracts[contractAddress]?.eventListener;
     // Delete listener and leave the room;
     contract.off('Transfer', eventListener);
     socket.leave(contractAddress);

@@ -17,7 +17,7 @@ const TokenWidget: FC<Props> = ({ tokenAddress, delToken }) => {
     return () => {
       stopListenContract(tokenAddress);
     };
-  }, []);
+  }, [tokenAddress]);
 
   return (
     <div className="border-2 rounded-lg border-purple-900  h-96 overflow-hidden mb-3">
