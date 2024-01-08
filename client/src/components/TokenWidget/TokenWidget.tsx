@@ -15,7 +15,7 @@ const TokenWidget: FC<Props> = ({ tokenAddress, delToken }) => {
     console.log('start listen transactions', tokenAddress);
 
     return () => {
-      stopListenContract(tokenAddress);
+      // stopListenContract(tokenAddress);
     };
   }, [tokenAddress]);
 
