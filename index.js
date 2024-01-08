@@ -1,13 +1,14 @@
-const app = require('express')();
-const server = require('http').createServer(app);
 const dotenv = require('dotenv-flow');
-const { SocketServer } = require('./socket');
+const { handleSocketEvents } = require('./controllers/socketEvents');
+const { initApp } = require('./init-app');
+const { io, server } = require('./socket');
 
 dotenv.config({
   cwd: './environments',
   default_node_env: 'development',
 });
 
-new SocketServer(server);
+initApp();
+handleSocketEvents(io);
 
 server.listen(3000);

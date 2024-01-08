@@ -3,6 +3,7 @@ const events = {
   NewContractTransaction: 'new-contract-trans',
   StopListenPairs: 'stop-listen-pairs',
   ListenContractTransactions: 'listen-contract-transactions',
+  StopListenContractTransactions: 'stop-listen-contract-transactions',
 };
 
 module.exports = { events };

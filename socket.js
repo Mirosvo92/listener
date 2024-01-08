@@ -1,24 +1,15 @@
 const { Server } = require('socket.io');
-const { bnbController } = require('./bnb-controller.js');
-const { events } = require('./events');
 
-class SocketServer {
-  constructor(server) {
-    this.io = new Server(server, {
-      cors: {
-        origin: '*',
-      },
-    });
-    bnbController.listenNewPairs(this.io);
+const app = require('express')();
+const server = require('http').createServer(app);
 
-    this.io.on('connection', this.startListeners);
-  }
+const io = new Server(server, {
+  cors: {
+    origin: '*',
+  },
+});
 
-  startListeners = async (socket) => {
-    console.log('conected');
-    socket.on(events.StopListenPairs, () => bnbController.stopListenNewPairs(this.io));
-    socket.on(events.ListenContractTransactions, (data) => bnbController.listenTransactionsOnContract(data, this.io));
-  };
-}
-
-module.exports = { SocketServer };
+module.exports = {
+  io,
+  server,
+};
