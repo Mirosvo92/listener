@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 type Props = {
-  items: { tokenAddress: string }[];
+  items: { tokenAddress: string, symbol: string}[];
   startListenToken: (address: string) => void;
 };
 
@@ -19,7 +19,7 @@ const TokensList: FC<Props> = ({ items, startListenToken }) => {
                 key={item.tokenAddress}
                 className="border border-purple-900 rounded-lg flex items-center p-2 justify-between"
               >
-                <p>{item.tokenAddress}</p>
+                <p>{item.tokenAddress} - {item.symbol}</p>
                 <button
                   className="inline-flex justify-center py-1 px-2 border border-transparent shadow-sm rounded-md text-white bg-indigo-600 focus:outline-none"
                   onClick={() => startListenToken(item.tokenAddress)}

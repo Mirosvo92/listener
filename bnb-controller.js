@@ -13,11 +13,11 @@ async function checkBalance(address) {
 
   // Connect to an Ethereum node using Infura (you need an API key from Infura)
   const providerBsc = new ethers.providers.getDefaultProvider(
-    `https://rpc.ankr.com/bsc/091f623b5879046b49683919326ad032b9c4aa31b20c2e7c6e4b9b355ec83ba4`,
+    process.env.ankrBSChttp,
     'mainnet'
   );
   const providerETH = new ethers.providers.getDefaultProvider(
-    `https://rpc.ankr.com/eth/091f623b5879046b49683919326ad032b9c4aa31b20c2e7c6e4b9b355ec83ba4`,
+    process.env.ankrETHhttp,
     'mainnet'
   );
 
@@ -29,6 +29,16 @@ async function checkBalance(address) {
     BSC: ethers.utils.formatEther(balanceBsc),
     ETH: ethers.utils.formatEther(balanceETH),
   };
+}
+
+async function getContractInfoByAbi(address, ABI) {
+  const provider = new ethers.providers.getDefaultProvider(
+    process.env.ankrBSChttp,
+    'mainnet'
+  );
+  const contract = new ethers.Contract(address, ABI, provider);
+
+  return contract;
 }
 async function fnListener(contractAddress, param1, param2, event) {
   console.log('new transaction', event);
@@ -46,7 +56,7 @@ class BNBController {
 
   createContract(contractAddress) {
     const provider = new ethers.providers.WebSocketProvider(
-      `wss://rpc.ankr.com/bsc/ws/091f623b5879046b49683919326ad032b9c4aa31b20c2e7c6e4b9b355ec83ba4`,
+      process.env.ankrBSCwebSocket,
       'mainnet'
     );
     const contractABI = ['event Transfer(address indexed from, address indexed to, uint256 value)']; // Replace with your contract's ABI
@@ -59,7 +69,7 @@ class BNBController {
       factory: '0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73',
     };
 
-    const mnemonic = 'celery awesome medal write coconut loyal bamboo print decade present vacuum kite';
+    const mnemonic = process.env.mnemonic;
     const provider = getWebsocketProvider('bsc');
     const wallet = ethers.Wallet.fromMnemonic(mnemonic);
     const account = wallet.connect(provider);
@@ -85,8 +95,12 @@ class BNBController {
   `);
 
     const tokenAddress = isNewToken(token0) ? token0 : token1;
+    const contractInfo = await getContractInfoByAbi(tokenAddress, ['function symbol() view returns (string)']);
+    const symbol = await contractInfo.symbol();
 
-    io.emit(events.NewPairCreated, { tokenAddress });
+
+
+    io.emit(events.NewPairCreated, { tokenAddress, symbol });
 
     if (this.pairCreatedCount === 20) {
       this.factory.off('PairCreated', this.pairCreatedListener);
