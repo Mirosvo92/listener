@@ -1,11 +1,24 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 type Props = {
-  items: { tokenAddress: string, symbol: string}[];
+  items: Item[];
   startListenToken: (address: string) => void;
 };
 
+interface Item {
+  tokenAddress: string;
+  symbol: string;
+  isDisabled: boolean
+}
+
 const TokensList: FC<Props> = ({ items, startListenToken }) => {
+  const [disabledItems, setDisable] = useState<Item[]>([]);
+
+  const disableItem = (item: Item) => {
+    item.isDisabled = true;
+    setDisable( prev => [item, ...prev] );
+  }
+
   return (
     <div className="w-1/2 max">
       <h3 className="text-2xl font-bold text-center mb-3">New Tokens List</h3>
@@ -21,10 +34,14 @@ const TokensList: FC<Props> = ({ items, startListenToken }) => {
               >
                 <p>{item.tokenAddress} - {item.symbol}</p>
                 <button
-                  className="inline-flex justify-center py-1 px-2 border border-transparent shadow-sm rounded-md text-white bg-indigo-600 focus:outline-none"
-                  onClick={() => startListenToken(item.tokenAddress)}
+                  disabled={item.isDisabled}
+                  className="inline-flex justify-center py-1 px-2 border border-transparent shadow-sm rounded-md text-white bg-indigo-600 focus:outline-none disabled:opacity-50"
+                  onClick={() => {
+                    disableItem(item);
+                    startListenToken(item.tokenAddress)
+                  }}
                 >
-                  Listen transactions
+                  { item.isDisabled ? 'Is listening' : 'Listen transactions' }
                 </button>
               </li>
             );
