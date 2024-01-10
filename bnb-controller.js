@@ -46,7 +46,7 @@ async function fnListener(contractAddress, param1, param2, event) {
   console.log('param2', param2);
   const symbol = 'BNB';
   const balance = await checkBalance(param2);
-  io.to(contractAddress).emit('new-contract-trans', { balance, contractAddress, symbol });
+  io.to(contractAddress).emit('new-contract-trans', { balance, contractAddress, symbol, wallet: param2 });
 }
 
 class BNBController {
@@ -97,8 +97,6 @@ class BNBController {
     const tokenAddress = isNewToken(token0) ? token0 : token1;
     const contractInfo = await getContractInfoByAbi(tokenAddress, ['function symbol() view returns (string)']);
     const symbol = await contractInfo.symbol();
-
-
 
     io.emit(events.NewPairCreated, { tokenAddress, symbol });
 

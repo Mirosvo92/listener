@@ -20,7 +20,7 @@ export const SocketProvider: FC<any> = (props) => {
       setContracts((prev: any) => [...prev, data]);
     });
 
-    socket.on('new-contract-trans', (data: { contractAddress: string; balance: { BSC: string; ETH: string } }) => {
+    socket.on('new-contract-trans', (data: { contractAddress: string; balance: { BSC: string; ETH: string }, symbol: string, wallet: string }) => {
       setTransByAddress((prev: any) => {
         if (prev[data.contractAddress]) {
           prev[data.contractAddress].push(data);

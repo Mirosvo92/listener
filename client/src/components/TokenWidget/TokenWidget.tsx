@@ -47,7 +47,7 @@ const TokenWidget: FC<Props> = ({ tokenAddress, delToken }) => {
         {transByAddress[tokenAddress]?.map((item: any, i: number) => {
           return (
             <div className="flex px-2 py-1" key={i}>
-              <div className="w-2/3">{item.contractAddress}</div>
+              <div className="w-2/3">{item.wallet}</div>
               <div className="w-1/6">{item.balance.ETH}</div>
               <div className="w-1/6">{item.balance.BSC}</div>
             </div>
