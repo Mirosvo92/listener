@@ -20,17 +20,11 @@ const TokenWidget: FC<Props> = ({ tokenAddress, delToken }) => {
   }, [tokenAddress]);
 
   return (
-    <div className="border-2 rounded-lg border-purple-900  h-96 overflow-hidden mb-3">
-      <div className="border-b-2 border-purple-900 px-4 py-2 flex items-center">
+    <div className="border-2 rounded-lg border-lime-700  h-96 overflow-hidden mb-3">
+      <div className="border-b-2 border-lime-700 px-4 py-2 flex items-center">
         <p className="flex-1">
           <span className="font-bold">Here sould be token symbol</span> ({tokenAddress})
         </p>
-        <button
-          onClick={() => stopListenContract(tokenAddress)}
-          className="inline-flex justify-center py-1 px-2 border border-transparent shadow-sm rounded-md text-white bg-indigo-600 focus:outline-none mr-2"
-        >
-          Stop
-        </button>
         <button
           className="inline-flex justify-center py-1 px-2 border border-transparent shadow-sm rounded-md text-white bg-red-600 focus:outline-none"
           onClick={delToken}

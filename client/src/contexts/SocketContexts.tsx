@@ -19,19 +19,29 @@ export const SocketProvider: FC<any> = (props) => {
     socket.on('new-pair-created', (data: any) => {
       setContracts((prev: any) => [...prev, data]);
     });
-
-    socket.on('new-contract-trans', (data: { contractAddress: string; balance: { BSC: string; ETH: string }, symbol: string, wallet: string }) => {
-      setTransByAddress((prev: any) => {
-        if (prev[data.contractAddress]) {
-          prev[data.contractAddress].push(data);
-        } else {
-          prev[data.contractAddress] = [data];
-        }
-
-        return { ...prev };
-      });
-      console.log('new transaction', data);
+    socket.on('connection', (data: any) => {
+      console.log('reconected');
     });
+
+    socket.io.on('reconnect', (attempt) => {
+      console.log('reconected', attempt);
+    });
+
+    socket.on(
+      'new-contract-trans',
+      (data: { contractAddress: string; balance: { BSC: string; ETH: string }; symbol: string; wallet: string }) => {
+        setTransByAddress((prev: any) => {
+          if (prev[data.contractAddress]) {
+            prev[data.contractAddress].push(data);
+          } else {
+            prev[data.contractAddress] = [data];
+          }
+
+          return { ...prev };
+        });
+        console.log('new transaction', data);
+      }
+    );
   };
 
   const startListenContract = (contractAddress: string) => {
@@ -50,6 +60,7 @@ export const SocketProvider: FC<any> = (props) => {
 
   const disconnect = () => {
     socket.close();
+    setIsConnected(false);
   };
 
   return (

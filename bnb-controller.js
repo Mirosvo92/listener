@@ -12,14 +12,8 @@ async function checkBalance(address) {
   const walletAddress = address; // Replace with your Ethereum wallet address
 
   // Connect to an Ethereum node using Infura (you need an API key from Infura)
-  const providerBsc = new ethers.providers.getDefaultProvider(
-    process.env.ankrBSChttp,
-    'mainnet'
-  );
-  const providerETH = new ethers.providers.getDefaultProvider(
-    process.env.ankrETHhttp,
-    'mainnet'
-  );
+  const providerBsc = new ethers.providers.getDefaultProvider(process.env.ankrBSChttp, 'mainnet');
+  const providerETH = new ethers.providers.getDefaultProvider(process.env.ankrETHhttp, 'mainnet');
 
   // Get the balance of the wallet
   const balanceBsc = await providerBsc.getBalance(walletAddress);
@@ -32,10 +26,7 @@ async function checkBalance(address) {
 }
 
 async function getContractInfoByAbi(address, ABI) {
-  const provider = new ethers.providers.getDefaultProvider(
-    process.env.ankrBSChttp,
-    'mainnet'
-  );
+  const provider = new ethers.providers.getDefaultProvider(process.env.ankrBSChttp, 'mainnet');
   const contract = new ethers.Contract(address, ABI, provider);
 
   return contract;
@@ -55,10 +46,7 @@ class BNBController {
   listeningContracts = {};
 
   createContract(contractAddress) {
-    const provider = new ethers.providers.WebSocketProvider(
-      process.env.ankrBSCwebSocket,
-      'mainnet'
-    );
+    const provider = new ethers.providers.WebSocketProvider(process.env.ankrBSCwebSocket, 'mainnet');
     const contractABI = ['event Transfer(address indexed from, address indexed to, uint256 value)']; // Replace with your contract's ABI
     const contract = new ethers.Contract(contractAddress, contractABI, provider);
     return contract;
@@ -133,11 +121,15 @@ class BNBController {
 
   stopListenTransactionsOnContract = async (contractAddress, socket) => {
     console.log('stop listen transactions on contract', contractAddress);
-    const contract = this.listeningContracts[contractAddress]?.contract;
-    const eventListener = this.listeningContracts[contractAddress]?.eventListener;
-    // Delete listener and leave the room;
-    contract.off('Transfer', eventListener);
     socket.leave(contractAddress);
+    const room = io.sockets.adapter.rooms.get(contractAddress);
+    //If last user leave the room, room was deleted, and then we stop listen this contract
+    if (!room) {
+      console.log('room deleted, nobody listen this contract');
+      const contract = this.listeningContracts[contractAddress]?.contract;
+      const eventListener = this.listeningContracts[contractAddress]?.eventListener;
+      contract.off('Transfer', eventListener);
+    }
   };
 }
 

@@ -13,3 +13,23 @@
     scrollbar-width: none; /* Firefox */
   }
 }
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgb(23 23 23 / var(--tw-bg-opacity));
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(101 163 13 / var(--tw-text-opacity));
+  border-radius: 8px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(101 163 13 / var(--tw-text-opacity));
+}
