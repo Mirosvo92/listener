@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="8c5f20fe-1406-44b7-a929-04818f0b4e74" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="2aXghUkHlyo6cauRHDetc5kuRsP" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8c5f20fe-1406-44b7-a929-04818f0b4e74" name="Default Changelist" comment="" />
+      <created>1704470459413</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1704470459413</updated>
+      <workItem from="1704470462170" duration="7613000" />
+      <workItem from="1704730244315" duration="13376000" />
+      <workItem from="1704874194395" duration="301000" />
+      <workItem from="1704875111646" duration="4985000" />
+      <workItem from="1704971998793" duration="1272000" />
+      <workItem from="1705410191844" duration="1006000" />
+    </task>
+    <task id="LOCAL-00001" summary="first commit">
+      <created>1704470523343</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1704470523343</updated>
+    </task>
+    <task id="LOCAL-00002" summary="first commit">
+      <created>1704486107158</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1704486107158</updated>
+    </task>
+    <task id="LOCAL-00003" summary="added contract listener">
+      <created>1704492576884</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1704492576884</updated>
+    </task>
+    <task id="LOCAL-00004" summary="added contract listener">
+      <created>1704730562539</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1704730562539</updated>
+    </task>
+    <task id="LOCAL-00005" summary="added contract name">
+      <created>1704811466627</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1704811466627</updated>
+    </task>
+    <task id="LOCAL-00006" summary="added disabled">
+      <created>1704818723622</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1704818723622</updated>
+    </task>
+    <task id="LOCAL-00007" summary="added wallet">
+      <created>1704882776530</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1704882776530</updated>
+    </task>
+    <task id="LOCAL-00008" summary="added check symbol">
+      <created>1705410234181</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1705410234181</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="first commit" />
+    <MESSAGE value="added contract listener" />
+    <MESSAGE value="added contract name" />
+    <MESSAGE value="added disabled" />
+    <MESSAGE value="added wallet" />
+    <MESSAGE value="added check symbol" />
+    <option name="LAST_COMMIT_MESSAGE" value="added check symbol" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="479" y="241" key="CommitChangelistDialog2" timestamp="1705410233979">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="479" y="241" key="CommitChangelistDialog2/1792.25.1920.1055/0.0.1792.1120@0.0.1792.1120" timestamp="1705410233979" />
+    <state x="179" y="107" key="DiffContextDialog" timestamp="1705410208323">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="179" y="107" key="DiffContextDialog/1792.25.1920.1055/0.0.1792.1120@0.0.1792.1120" timestamp="1705410208323" />
+    <state x="496" y="297" key="Vcs.Push.Dialog.v2" timestamp="1705410604480">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="496" y="297" key="Vcs.Push.Dialog.v2/1792.25.1920.1055/0.0.1792.1120@0.0.1792.1120" timestamp="1705410604480" />
+    <state x="697" y="478" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1705419060736">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="697" y="478" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/1792.25.1920.1055/0.0.1792.1120@0.0.1792.1120" timestamp="1705419060736" />
+    <state x="597" y="315" width="597" height="518" key="find.popup" timestamp="1704875793090">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="597" y="315" width="597" height="518" key="find.popup/1792.25.1920.1055/0.0.1792.1120@0.0.1792.1120" timestamp="1704875793090" />
+  </component>
+</project>
