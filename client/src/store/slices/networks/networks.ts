@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Networks } from 'src/types/networks';
-import { AddNetworkPayload, AddNewTokenPayload, Network, TokenTransactionsPayload } from './types';
+import { AddNetworkPayload, AddNewTokenPayload, DelNetworkPayload, Network, TokenTransactionsPayload } from './types';
 
 const networksNames = {
   [Networks.BinanceSmartChat]: 'Binance Smart Chain',
@@ -8,14 +8,14 @@ const networksNames = {
   [Networks.AvaxNetwork]: 'Avax Network',
 };
 
-const defaultselectedNetwork = Networks.BinanceSmartChat;
+// const defaultselectedNetwork = Networks.BinanceSmartChat;
 
-const defaultNetwork: Network = {
-  name: networksNames['bsc'],
-  namespace: 'bsc',
-  tokens: {},
-  listeningTokens: [],
-};
+// const defaultNetwork: Network = {
+//   name: networksNames['bsc'],
+//   namespace: 'bsc',
+//   tokens: {},
+//   listeningTokens: [],
+// };
 
 type NetworkTab = {
   name: string;
@@ -23,7 +23,7 @@ type NetworkTab = {
 };
 
 export type InitState = {
-  selectedNetwork: Networks;
+  selectedNetwork: Networks | '';
   networks: Record<string, Network>;
   availableNetworks: NetworkTab[];
 };
@@ -43,10 +43,8 @@ const initialState: InitState = {
       namespace: 'avax',
     },
   ],
-  selectedNetwork: defaultselectedNetwork,
-  networks: {
-    [defaultselectedNetwork]: defaultNetwork,
-  },
+  selectedNetwork: '',
+  networks: {},
 };
 
 const networksSlice = createSlice({
@@ -98,6 +96,23 @@ const networksSlice = createSlice({
           listeningTokens: [],
           namespace: network,
         };
+        state.selectedNetwork = network as Networks;
+      }
+    },
+
+    deleteNetwork: (state, action: PayloadAction<DelNetworkPayload>) => {
+      const { network } = action.payload;
+      const existedNetwork = state.networks[network];
+
+      if (!existedNetwork) return state;
+
+      delete state.networks[network];
+
+      const networksLength = Object.keys(state.networks);
+      if (!networksLength) state.selectedNetwork = '';
+      else {
+        const networksKeys = Object.keys(state.networks);
+        state.selectedNetwork = networksKeys[networksKeys.length - 1] as Networks;
       }
     },
   },

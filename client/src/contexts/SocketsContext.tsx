@@ -8,7 +8,7 @@ type Listeners = {
 type SocketContext = {
   createConnection: (namespace: string, listeners: Listeners) => void;
   deleteConnection: (namespace: string) => void;
-  getSocket: (namespace: string) => void;
+  getSocket: (namespace: string) => Socket | undefined;
 };
 
 type Connections = {

@@ -1,15 +1,22 @@
-import { selectListeningTokens, selectTokens } from 'src/store/slices/networks/selectors';
-import { useSocketContext } from 'src/contexts/SocketContexts';
+import { selectListeningTokensByNamespace, selectTokensByNamespace } from 'src/store/slices/networks/selectors';
 import { useAppSelector } from 'src/store';
+import { FC } from 'react';
+import { useSockets } from 'src/contexts/SocketsContext';
 
-const TokensList = () => {
-  const { startListenContract } = useSocketContext();
+type Props = {
+  namespace: string;
+};
 
-  const tokens = useAppSelector(selectTokens);
-  const listeningTokens = useAppSelector(selectListeningTokens);
+const TokensList: FC<Props> = ({ namespace }) => {
+  const { getSocket } = useSockets();
+
+  const socket = getSocket(namespace);
+
+  const tokens = useAppSelector((state) => selectTokensByNamespace(state, namespace));
+  const listeningTokens = useAppSelector((state) => selectListeningTokensByNamespace(state, namespace));
 
   const startListenToken = (address: string) => {
-    startListenContract(address);
+    socket?.emit('listen-contract-transactions', address);
   };
 
   return (

@@ -22,3 +22,6 @@ export type TokenTransactionsPayload = {
 export type AddNetworkPayload = {
   network: string;
 };
+export type DelNetworkPayload = {
+  network: string;
+};

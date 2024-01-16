@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, useEffect } from 'react';
-import { useSocketContext } from 'src/contexts/SocketContexts';
 
 type Props = {
   tokenAddress: string;
@@ -8,7 +7,7 @@ type Props = {
 };
 
 const TokenWidget: FC<Props> = ({ tokenAddress, delToken }) => {
-  const { transByAddress } = useSocketContext();
+  const transByAddress = {} as any;
   console.log(transByAddress[tokenAddress]);
 
   useEffect(() => {
