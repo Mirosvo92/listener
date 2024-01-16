@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="https://cdn.socket.io/4.7.3/socket.io.min.js" ></script>
+</head>
+<body>
+
+
+  <script>
+    const socket = io('http://localhost:3000');
+
+    socket.on('new-pair', (data) => {
+      console.log('works', data)
+    })
+    socket.on('new-contract-trans', (data) => {
+      console.log('new-contract-trans works', data)
+    })
+  </script>
+
+</body>
+</html>
