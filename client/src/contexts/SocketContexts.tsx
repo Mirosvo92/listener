@@ -1,24 +1,36 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createContext, FC, useContext, useState } from 'react';
+import { createContext, FC, useContext, useMemo, useRef, useState } from 'react';
+import { io } from 'socket.io-client';
 import { useSocket } from '../hooks/useSocket';
+import { useAppDispatch, useAppSelector } from '../store';
+import { networkActions } from '../store/slices/networks/networks';
 
 const SocketContext = createContext<any | null>(null);
 
 export const SocketProvider: FC<any> = (props) => {
   const [isConnected, setIsConnected] = useState(false);
-  const [contracts, setContracts] = useState<any>([]);
   const [transByAddress, setTransByAddress] = useState<any>({});
 
-  const socket = useSocket('http://localhost:3000', {
-    ackTimeout: 10000,
+  const dispatch = useAppDispatch();
+  const selectednetwork = useAppSelector((state) => state.networks.selectedNetwork);
+
+  const socket = useSocket(`http://localhost:3000/`, {
     autoConnect: false,
   });
 
   const startListeners = () => {
     socket.on('new-pair-created', (data: any) => {
-      setContracts((prev: any) => [...prev, data]);
+      console.log('new pair created', data);
+
+      dispatch(
+        networkActions.addNewToken({
+          network: selectednetwork,
+          token: { address: data.tokenAddress, symbol: data.symbol },
+        })
+      );
     });
+
     socket.on('connection', (data: any) => {
       console.log('reconected');
     });
@@ -66,7 +78,6 @@ export const SocketProvider: FC<any> = (props) => {
   return (
     <SocketContext.Provider
       value={{
-        contracts,
         transByAddress,
         socket,
         isConnected,

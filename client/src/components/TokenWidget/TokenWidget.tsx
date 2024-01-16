@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, useEffect } from 'react';
-import { useSocketContext } from '../../contexts/SocketContexts';
+import { useSocketContext } from 'src/contexts/SocketContexts';
 
 type Props = {
   tokenAddress: string;
@@ -8,7 +8,7 @@ type Props = {
 };
 
 const TokenWidget: FC<Props> = ({ tokenAddress, delToken }) => {
-  const { transByAddress, stopListenContract } = useSocketContext();
+  const { transByAddress } = useSocketContext();
   console.log(transByAddress[tokenAddress]);
 
   useEffect(() => {
@@ -22,9 +22,9 @@ const TokenWidget: FC<Props> = ({ tokenAddress, delToken }) => {
   return (
     <div className="border-2 rounded-lg border-lime-700  h-96 overflow-hidden mb-3">
       <div className="border-b-2 border-lime-700 px-4 py-2 flex items-center">
-        <p className="flex-1">
+        <a href={`https://poocoin.app/tokens/${tokenAddress}`} target="_blank" className="flex-1">
           <span className="font-bold">Here sould be token symbol</span> ({tokenAddress})
-        </p>
+        </a>
         <button
           className="inline-flex justify-center py-1 px-2 border border-transparent shadow-sm rounded-md text-white bg-red-600 focus:outline-none"
           onClick={delToken}
