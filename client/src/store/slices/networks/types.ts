@@ -1,22 +1,20 @@
 import { Networks } from 'src/types/networks';
-import { Token } from 'src/types/token';
+import { Token, TokenTransaction } from 'src/types/token';
 
 export type Network = {
   name: string;
   namespace: string;
   tokens: Record<string, Token>;
   listeningTokens: string[];
+  transactionsByToken: Record<string, TokenTransaction[]>;
 };
 
 export type AddNewTokenPayload = {
   network: string;
-  token: {
-    address: string;
-    symbol: string;
-  };
+  token: Token;
 };
 export type TokenTransactionsPayload = {
-  network: Networks;
+  network: string;
   address: string;
 };
 export type AddNetworkPayload = {
@@ -24,4 +22,8 @@ export type AddNetworkPayload = {
 };
 export type DelNetworkPayload = {
   network: string;
+};
+export type TokenTransactionPayload = {
+  network: string;
+  transaction: TokenTransaction;
 };

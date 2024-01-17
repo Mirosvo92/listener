@@ -1,17 +1,14 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import App from './App';
 import { store } from './store';
 import './index.css';
-import { SocketsContextProvider } from './contexts/SocketsContext';
+import { BrowserRouter } from 'react-router-dom';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
+  <BrowserRouter>
     <Provider store={store}>
-      <SocketsContextProvider>
-        <App />
-      </SocketsContextProvider>
+      <App />
     </Provider>
-  </React.StrictMode>
+  </BrowserRouter>
 );

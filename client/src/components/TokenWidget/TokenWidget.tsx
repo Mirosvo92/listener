@@ -1,14 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, useEffect } from 'react';
+import { useAppSelector } from 'src/store';
+import { selectTransactions } from 'src/store/slices/networks/selectors';
 
 type Props = {
   tokenAddress: string;
+  namespace: string;
   delToken: () => void;
 };
 
-const TokenWidget: FC<Props> = ({ tokenAddress, delToken }) => {
-  const transByAddress = {} as any;
-  console.log(transByAddress[tokenAddress]);
+const TokenWidget: FC<Props> = ({ namespace, tokenAddress, delToken }) => {
+  const transByAddress = useAppSelector((state) => selectTransactions(state, namespace, tokenAddress));
+  console.log(transByAddress);
 
   useEffect(() => {
     console.log('start listen transactions', tokenAddress);
@@ -37,7 +40,7 @@ const TokenWidget: FC<Props> = ({ tokenAddress, delToken }) => {
         <div className="w-1/6">Balance BNB</div>
       </div>
       <div className="overflow-auto max-h-full flex flex-col">
-        {transByAddress[tokenAddress]?.map((item: any, i: number) => {
+        {transByAddress.map((item: any, i: number) => {
           return (
             <div className="flex px-2 py-1" key={i}>
               <div className="w-2/3">{item.wallet}</div>
