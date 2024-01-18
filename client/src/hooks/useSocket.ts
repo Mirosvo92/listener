@@ -5,7 +5,11 @@ export const useSocket = (url: string, options?: Partial<ManagerOptions & Socket
   const { current: socket } = useRef(io(url, options));
 
   useEffect(() => {
+    console.log('use effect in useSockets');
+
     return () => {
+      console.log('receive disconnect');
+
       if (socket) {
         socket.close();
       }

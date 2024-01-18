@@ -1,23 +1,17 @@
 import { selectListeningTokensByNamespace, selectTokensByNamespace } from 'src/store/slices/networks/selectors';
 import { useAppSelector } from 'src/store';
 import { FC } from 'react';
-import { useSockets } from 'src/contexts/SocketsContext';
+import { useWorkspaceSocket } from 'src/contexts/SocketContexts';
 
 type Props = {
   namespace: string;
 };
 
 const TokensList: FC<Props> = ({ namespace }) => {
-  const { getSocket } = useSockets();
-
-  const socket = getSocket(namespace);
+  const { startListenToken } = useWorkspaceSocket();
 
   const tokens = useAppSelector((state) => selectTokensByNamespace(state, namespace));
   const listeningTokens = useAppSelector((state) => selectListeningTokensByNamespace(state, namespace));
-
-  const startListenToken = (address: string) => {
-    socket?.emit('listen-contract-transactions', address);
-  };
 
   return (
     <div className="w-1/2 max">
@@ -27,21 +21,21 @@ const TokensList: FC<Props> = ({ namespace }) => {
           {!tokens.length && <p className="text-center pt-8 text-xl">Here you will see new tokens</p>}
 
           {tokens.map((token) => {
-            const isListening = listeningTokens.includes(token.address);
+            const isListening = listeningTokens.includes(token.tokenAddress);
 
             return (
               <li
-                key={token.address}
+                key={token.tokenAddress}
                 className="border border-lime-700 rounded-lg flex items-center p-2 justify-between"
               >
                 <p>
-                  {token.address} - {token.symbol}
+                  {token.tokenAddress} - {token.symbol}
                 </p>
                 <button
                   disabled={isListening}
                   className="inline-flex justify-center py-1 px-2 border border-transparent shadow-sm rounded-md text-white bg-lime-700 focus:outline-none disabled:opacity-50"
                   onClick={() => {
-                    startListenToken(token.address);
+                    startListenToken(token.tokenAddress);
                   }}
                 >
                   {isListening ? 'Is listening' : 'Listen transactions'}

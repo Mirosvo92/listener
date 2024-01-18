@@ -1,5 +1,5 @@
 export enum Networks {
-  Ethereum = 'eth',
-  BinanceSmartChat = 'bsc',
-  AvaxNetwork = 'avax',
+  Ethereum = '/eth',
+  BinanceSmartChat = '/',
+  AvaxNetwork = '/avax',
 }

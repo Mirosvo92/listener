@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import './App.css';
 import NetworkWorkspace from './components/NetworkWorkspace/NetworkWorkspace';
+import { WorkspaceSocketProvider } from './contexts/SocketContexts';
 import { useAppDispatch, useAppSelector } from './store';
 import { networkActions } from './store/slices/networks/networks';
 import { selectAvailablenetworks, selectCurrentNetwork, selectNetworksArray } from './store/slices/networks/selectors';
@@ -30,6 +31,8 @@ function App() {
     e.stopPropagation();
     dispatch(networkActions.deleteNetwork({ network: namespace }));
   };
+
+  console.log('reder app');
 
   return (
     <div className="bg-neutral-900 text-lime-600 min-h-dvh p-6">
@@ -82,11 +85,14 @@ function App() {
           <div className="">
             {activeNetworks.map((network) => {
               return (
-                <NetworkWorkspace
+                <div
                   key={network.namespace}
-                  namespace={network.namespace}
-                  isActive={selectedNetwork === network.namespace}
-                />
+                  className={`min-w-full mb-8 ${selectedNetwork === network.namespace ? '' : 'hidden'}`}
+                >
+                  <WorkspaceSocketProvider namespace={network.namespace}>
+                    <NetworkWorkspace namespace={network.namespace} />
+                  </WorkspaceSocketProvider>
+                </div>
               );
             })}
           </div>
