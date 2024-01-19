@@ -88,8 +88,8 @@ const networksSlice = createSlice({
     },
     stopListenTokenAndDelete: (state, action: PayloadAction<TokenTransactionsPayload>) => {
       const { address: tokenAddress, network } = action.payload;
-
-      state.networks[network]?.listeningTokens?.filter((address) => address !== tokenAddress);
+      const idx = state.networks[network].listeningTokens.indexOf(tokenAddress);
+      state.networks[network].listeningTokens.splice(idx, 1);
       delete state.networks[network]?.transactionsByToken[tokenAddress];
     },
     addNetwork: (state, action: PayloadAction<AddNetworkPayload>) => {

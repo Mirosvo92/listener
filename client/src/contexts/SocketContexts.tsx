@@ -39,8 +39,6 @@ export const WorkspaceSocketProvider: FC<PropsWithChildren & { namespace: string
 
   const socket = useSocket(baseUrl + namespace, defaultOptions);
 
-  const latestConnection = useLatest(conenctionStatus);
-
   const startListeners = useCallback(() => {
     socket.on('new-pair-created', (data: Token) => {
       dispatch(networkActions.addNewToken({ network: namespace, token: data }));
@@ -78,7 +76,6 @@ export const WorkspaceSocketProvider: FC<PropsWithChildren & { namespace: string
 
   const startListenToken = useCallback((address: string) => {
     socket?.emit('listen-contract-transactions', address);
-    dispatch(networkActions.listenToken({ network: namespace, address }));
   }, []);
 
   useEffect(() => {
@@ -87,6 +84,11 @@ export const WorkspaceSocketProvider: FC<PropsWithChildren & { namespace: string
 
     setConnectionStatus('connected');
     startListeners();
+
+    return () => {
+      socket.close();
+      console.log('disconnect', namespace);
+    };
   }, []);
 
   const value = useMemo(() => {
