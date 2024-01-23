@@ -1,6 +1,6 @@
 /* eslint-disable no-extra-boolean-cast */
 import { FC, memo } from 'react';
-import { useWorkspaceSocket, WorkspaceSocketProvider } from 'src/contexts/SocketContexts';
+import { useWorkspaceSocket } from 'src/contexts/SocketContexts';
 import { useAppSelector } from 'src/store';
 import { selectNetworkName } from 'src/store/slices/networks/selectors';
 import ListeningTokens from '../ListeningTokens/ListeningTokens';
