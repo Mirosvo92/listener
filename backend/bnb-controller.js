@@ -84,7 +84,13 @@ class BNBController {
 
     const tokenAddress = isNewToken(token0) ? token0 : token1;
     const contractInfo = await getContractInfoByAbi(tokenAddress, ['function symbol() view returns (string)']);
-    const symbol = await contractInfo.symbol();
+    let symbol = 'unknown'
+
+    try {
+      symbol = await contractInfo.symbol();
+    } catch (error) {
+      console.log('can not get symbol')
+    }
 
     io.emit(events.NewPairCreated, { tokenAddress, symbol });
 

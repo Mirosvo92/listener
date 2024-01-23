@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8c5f20fe-1406-44b7-a929-04818f0b4e74" name="Default Changelist" comment="" />
+    <list default="true" id="8c5f20fe-1406-44b7-a929-04818f0b4e74" name="Default Changelist" comment="add">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/bnb-controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/bnb-controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/environments/.env.development" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/environments/.env.production" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/environments/.env.staging" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -37,6 +47,9 @@
     <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/backend" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
     </key>
@@ -54,7 +67,9 @@
       <workItem from="1704874194395" duration="301000" />
       <workItem from="1704875111646" duration="4985000" />
       <workItem from="1704971998793" duration="1272000" />
-      <workItem from="1705410191844" duration="1006000" />
+      <workItem from="1705410191844" duration="3544000" />
+      <workItem from="1705500352380" duration="12609000" />
+      <workItem from="1705954160652" duration="16777000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1704470523343</created>
@@ -112,7 +127,14 @@
       <option name="project" value="LOCAL" />
       <updated>1705410234181</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="add">
+      <created>1705419325214</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1705419325214</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -125,13 +147,14 @@
     <MESSAGE value="added disabled" />
     <MESSAGE value="added wallet" />
     <MESSAGE value="added check symbol" />
-    <option name="LAST_COMMIT_MESSAGE" value="added check symbol" />
+    <MESSAGE value="add" />
+    <option name="LAST_COMMIT_MESSAGE" value="add" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="479" y="241" key="CommitChangelistDialog2" timestamp="1705410233979">
+    <state x="479" y="241" key="CommitChangelistDialog2" timestamp="1706000294002">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state x="479" y="241" key="CommitChangelistDialog2/1792.25.1920.1055/0.0.1792.1120@0.0.1792.1120" timestamp="1705410233979" />
+    <state x="479" y="241" key="CommitChangelistDialog2/1792.25.1920.1055/0.0.1792.1120@0.0.1792.1120" timestamp="1706000294002" />
     <state x="179" y="107" key="DiffContextDialog" timestamp="1705410208323">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
@@ -140,13 +163,17 @@
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
     <state x="496" y="297" key="Vcs.Push.Dialog.v2/1792.25.1920.1055/0.0.1792.1120@0.0.1792.1120" timestamp="1705410604480" />
-    <state x="697" y="478" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1705419060736">
+    <state x="697" y="478" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1705578251192">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state x="697" y="478" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/1792.25.1920.1055/0.0.1792.1120@0.0.1792.1120" timestamp="1705419060736" />
-    <state x="597" y="315" width="597" height="518" key="find.popup" timestamp="1704875793090">
+    <state x="697" y="478" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/1792.25.1920.1055/0.0.1792.1120@0.0.1792.1120" timestamp="1705578251192" />
+    <state x="597" y="315" width="597" height="518" key="find.popup" timestamp="1705579019507">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state x="597" y="315" width="597" height="518" key="find.popup/1792.25.1920.1055/0.0.1792.1120@0.0.1792.1120" timestamp="1704875793090" />
+    <state x="597" y="315" width="597" height="518" key="find.popup/1792.25.1920.1055/0.0.1792.1120@0.0.1792.1120" timestamp="1705579019507" />
+    <state x="561" y="251" width="670" height="676" key="search.everywhere.popup" timestamp="1706010939027">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="561" y="251" width="670" height="676" key="search.everywhere.popup/1792.25.1920.1055/0.0.1792.1120@0.0.1792.1120" timestamp="1706010939027" />
   </component>
 </project>
