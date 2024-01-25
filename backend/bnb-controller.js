@@ -3,6 +3,12 @@ const ethers = require('ethers');
 const { getWebsocketProvider } = require('./services/provider-service');
 const { bnbAddress, wbnbAddress } = require('./constants');
 
+const wait = async (ms = 500) => {
+  return new Promise((res) => {
+    setTimeout(res, ms);
+  });
+};
+
 function isNewToken(address) {
   return address !== bnbAddress && address !== wbnbAddress;
 }
@@ -30,17 +36,17 @@ async function getContractInfoByAbi(address, ABI) {
 
   return contract;
 }
-async function fnListener(contractAddress, param1, param2, event, io) {
-  console.log('new transaction', event);
-  console.log('param1', param1);
-  console.log('param2', param2);
+async function fnListener(contractAddress, from, to, amount, io) {
+  console.log('amount', amount);
+  console.log('from', from);
+  console.log('to', to);
   const symbol = 'BNB';
-  const balance = await checkBalance(param2);
+  const balance = await checkBalance(to);
   io.to(contractAddress).emit(`new-contract-trans/${contractAddress}`, {
     balance,
     contractAddress,
     symbol,
-    wallet: param2,
+    wallet: to,
   });
 }
 
@@ -49,10 +55,10 @@ class BNBController {
   factory = null;
   listeningContracts = {};
 
-  createContract(contractAddress) {
-    console.log(process.env.ankrBSCwebSocket);
-    const provider = new ethers.providers.WebSocketProvider(process.env.ankrBSCwebSocket, 'mainnet');
-    const contractABI = ['event Transfer(address indexed from, address indexed to, uint256 value)']; // Replace with your contract's ABI
+  async createContract(contractAddress) {
+    const provider = getWebsocketProvider('bsc');
+    const contractABI = ['event Transfer(address indexed from, address indexed to, uint256 value)'];
+    // Replace with your contract's ABI
     const contract = new ethers.Contract(contractAddress, contractABI, provider);
     return contract;
   }
@@ -115,9 +121,10 @@ class BNBController {
     if (!room) {
       console.log('This contract wasnt listen yet, create room and start listen contract');
       this.listeningContracts[contractAddress] = { contract: null, eventListener: null };
-      this.listeningContracts[contractAddress]['contract'] = this.createContract(contractAddress);
-      this.listeningContracts[contractAddress]['eventListener'] = function (param1, param2, event) {
-        return fnListener(contractAddress, param1, param2, event, io);
+      console.log('contractAddress', contractAddress);
+      this.listeningContracts[contractAddress]['contract'] = await this.createContract(contractAddress);
+      this.listeningContracts[contractAddress]['eventListener'] = function (from, to, amount) {
+        return fnListener(contractAddress, from, to, amount, io);
       };
       this.listeningContracts[contractAddress].contract.on(
         'Transfer',
@@ -132,12 +139,10 @@ class BNBController {
   };
 
   stopListenTransactionsOnContract = async (contractAddress, socket, io) => {
-    console.log('stop listen transactions on contract', contractAddress);
     socket.leave(contractAddress);
     const room = io.sockets.adapter.rooms.get(contractAddress);
     //If last user leave the room, room was deleted, and then we stop listen this contract
     if (!room) {
-      console.log('room deleted, nobody listen this contract');
       const contract = this.listeningContracts[contractAddress]?.contract;
       const eventListener = this.listeningContracts[contractAddress]?.eventListener;
       contract.off('Transfer', eventListener);

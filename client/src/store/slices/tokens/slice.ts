@@ -32,7 +32,11 @@ const tokensSlice = createSlice({
     },
     stopListenToken: (state, action: PayloadAction<ListenTokenPayload>) => {
       const { network, address } = action.payload;
-      state.byNetworks[network].listeningTokens.filter((item) => item !== address);
+      console.log(network, address);
+
+      state.byNetworks[network].listeningTokens = state.byNetworks[network].listeningTokens.filter(
+        (item) => item !== address
+      );
     },
   },
 });

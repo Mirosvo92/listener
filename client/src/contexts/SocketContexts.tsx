@@ -9,7 +9,6 @@ type SocketStatus = 'init' | 'loading' | 'disconnected' | 'reconnection' | 'erro
 const baseUrl = 'http://localhost:3000/';
 
 const defaultOptions: Partial<ManagerOptions & SocketOptions> = {
-  reconnectionAttempts: 5,
   autoConnect: false,
 };
 const SocketContext = createContext<any | null>(null);

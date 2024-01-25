@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState } from 'react';
+import React, { FC, useCallback, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 type ChildrenProps = {
@@ -13,7 +13,7 @@ const Detachable: FC<{ title?: string; children: FC<ChildrenProps> }> = ({ child
   const container = useRef(document.createElement('div'));
   const detachedWindow = useRef<Window | null>(null);
 
-  const openWindow = () => {
+  const openWindow = useCallback(() => {
     container.current.classList.add('bg-neutral-900', 'text-lime-600', 'min-h-dvh');
     detachedWindow.current = window.open('', '', 'width=600,height=400,left=200,top=200');
     if (detachedWindow.current) {
@@ -26,15 +26,15 @@ const Detachable: FC<{ title?: string; children: FC<ChildrenProps> }> = ({ child
         setIsDetached(false);
       });
     }
-  };
+  }, []);
 
-  const closeWindow = () => {
+  const closeWindow = useCallback(() => {
     setIsDetached(false);
     if (detachedWindow.current) {
       detachedWindow.current?.close();
       detachedWindow.current = null;
     }
-  };
+  }, []);
 
   return (
     <>

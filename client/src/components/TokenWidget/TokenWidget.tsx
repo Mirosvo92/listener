@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC, useEffect, useState } from 'react';
+import { FC, memo, useEffect, useState } from 'react';
 import { useWorkspaceSocket } from 'src/contexts/SocketContexts';
 import { useAppDispatch } from 'src/store';
 import { tokensActions } from 'src/store/slices/tokens/slice';
@@ -12,7 +12,7 @@ type Props = {
   isDetached: boolean;
 };
 
-const TokenWidget: FC<Props> = ({ namespace, tokenAddress, openWindow, closeWindow, isDetached }) => {
+const TokenWidget: FC<Props> = memo(({ namespace, tokenAddress, openWindow, closeWindow, isDetached }) => {
   const dispatch = useAppDispatch();
   const { socket } = useWorkspaceSocket();
 
@@ -23,13 +23,13 @@ const TokenWidget: FC<Props> = ({ namespace, tokenAddress, openWindow, closeWind
       setTransactions((prev: any) => [...prev, transaction]);
     };
 
-    socket.emit('listen-contract-transactions', { address: tokenAddress });
-    socket.on(`transaction/${namespace}`, transactionHandler);
+    socket.emit('listen-contract-transactions', tokenAddress);
+    socket.on(`new-contract-trans/${tokenAddress}`, transactionHandler);
 
     console.log('start listen transactions', tokenAddress);
 
     return () => {
-      socket.emit('stopListenToken', { address: tokenAddress });
+      socket.emit('stop-listen-contract-transactions', tokenAddress);
       socket.off(`transaction/${namespace}`, transactionHandler);
     };
   }, [tokenAddress]);
@@ -92,6 +92,6 @@ const TokenWidget: FC<Props> = ({ namespace, tokenAddress, openWindow, closeWind
       </div>
     </div>
   );
-};
+});
 
 export default TokenWidget;
