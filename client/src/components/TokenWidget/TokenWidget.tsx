@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useWorkspaceSocket } from 'src/contexts/SocketContexts';
-import { useAppDispatch, useAppSelector } from 'src/store';
-import { networkActions } from 'src/store/slices/networks/networks';
-import { selectTransactions } from 'src/store/slices/networks/selectors';
+import { useAppDispatch } from 'src/store';
+import { tokensActions } from 'src/store/slices/tokens/slice';
 
 type Props = {
   tokenAddress: string;
@@ -14,22 +13,30 @@ type Props = {
 };
 
 const TokenWidget: FC<Props> = ({ namespace, tokenAddress, openWindow, closeWindow, isDetached }) => {
-  const transByAddress = useAppSelector((state) => selectTransactions(state, namespace, tokenAddress));
   const dispatch = useAppDispatch();
+  const { socket } = useWorkspaceSocket();
 
-  const { startListenToken, delToken } = useWorkspaceSocket();
+  const [transactions, setTransactions] = useState<any>([]);
+
   useEffect(() => {
-    startListenToken(tokenAddress);
+    const transactionHandler = (transaction: any) => {
+      setTransactions((prev: any) => [...prev, transaction]);
+    };
+
+    socket.emit('listen-contract-transactions', { address: tokenAddress });
+    socket.on(`transaction/${namespace}`, transactionHandler);
+
     console.log('start listen transactions', tokenAddress);
 
     return () => {
-      delToken(tokenAddress);
+      socket.emit('stopListenToken', { address: tokenAddress });
+      socket.off(`transaction/${namespace}`, transactionHandler);
     };
   }, [tokenAddress]);
 
   const handleDelete = () => {
     closeWindow();
-    dispatch(networkActions.stopListenTokenAndDelete({ network: namespace, address: tokenAddress }));
+    dispatch(tokensActions.stopListenToken({ network: namespace, address: tokenAddress }));
   };
 
   return (
@@ -67,7 +74,7 @@ const TokenWidget: FC<Props> = ({ namespace, tokenAddress, openWindow, closeWind
           <div className="w-1/6">Balance BNB</div>
         </div>
         <div className="overflow-auto max-h-full flex flex-col">
-          {transByAddress.map((item: any, i: number) => {
+          {transactions.map((item: any, i: number) => {
             return (
               <div className="flex px-2 py-1" key={i}>
                 <div className="w-2/3">

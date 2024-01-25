@@ -1,28 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  createContext,
-  FC,
-  memo,
-  PropsWithChildren,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
-import { io, ManagerOptions, SocketOptions } from 'socket.io-client';
-import { useLatest } from 'src/hooks/useLatest';
-import { usePrevious } from 'src/hooks/usePrevious';
-import { useWhyDidUpdate } from 'src/hooks/useWhyDidUpdate';
-import { Token, TokenTransaction } from 'src/types/token';
+import { createContext, FC, PropsWithChildren, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { ManagerOptions, SocketOptions } from 'socket.io-client';
 import { useSocket } from '../hooks/useSocket';
-import { useAppDispatch } from '../store';
-import { networkActions } from '../store/slices/networks/networks';
 
 type SocketStatus = 'init' | 'loading' | 'disconnected' | 'reconnection' | 'error' | 'connected';
 
-const baseUrl = 'http://localhost:3000';
+const baseUrl = 'http://localhost:3000/';
 
 const defaultOptions: Partial<ManagerOptions & SocketOptions> = {
   reconnectionAttempts: 5,
@@ -33,21 +17,15 @@ const SocketContext = createContext<any | null>(null);
 export const WorkspaceSocketProvider: FC<PropsWithChildren & { namespace: string }> = (props) => {
   const { namespace, children } = props;
 
-  const dispatch = useAppDispatch();
-
   const [conenctionStatus, setConnectionStatus] = useState<SocketStatus>('init');
-
-  const socket = useSocket(baseUrl + namespace, defaultOptions);
+  const socket = useSocket(baseUrl + (namespace === 'bsc' ? '' : namespace), defaultOptions);
 
   const startListeners = useCallback(() => {
-    socket.on('new-pair-created', (data: Token) => {
-      dispatch(networkActions.addNewToken({ network: namespace, token: data }));
-      console.log(data);
+    // Basic listeners for all sockets
+    socket.on('connect', () => {
+      console.log(`connect`);
+      setConnectionStatus('connected');
     });
-    socket.on('new-contract-trans', (data: TokenTransaction) => {
-      dispatch(networkActions.addNewTransaction({ network: namespace, transaction: data }));
-    });
-
     socket.io.on('reconnect', (attempt) => {
       setConnectionStatus('connected');
       console.log(`reconected with ${attempt} attempt`);
@@ -56,10 +34,6 @@ export const WorkspaceSocketProvider: FC<PropsWithChildren & { namespace: string
       setConnectionStatus('reconnection');
       console.log(`try to reconnect: ${attempt} times`);
     });
-    // socket.io.on('reconnect_error', (error) => {
-    //   setConnectionStatus('error');
-    //   console.log(`reconnection error`, error);
-    // });
     socket.io.on('reconnect_failed', () => {
       setConnectionStatus('disconnected');
       console.log('failed to reconnect');
@@ -70,32 +44,22 @@ export const WorkspaceSocketProvider: FC<PropsWithChildren & { namespace: string
     });
   }, []);
 
-  const delToken = useCallback((address: string) => {
-    socket?.emit('stop-listen-contract-transactions', address);
-  }, []);
-
-  const startListenToken = useCallback((address: string) => {
-    socket?.emit('listen-contract-transactions', address);
-  }, []);
-
   useEffect(() => {
+    setConnectionStatus('loading');
     socket.connect();
-    console.log('connect', namespace);
 
     setConnectionStatus('connected');
     startListeners();
 
     return () => {
       socket.close();
-      console.log('disconnect', namespace);
     };
   }, []);
 
   const value = useMemo(() => {
     return {
-      delToken,
-      startListenToken,
       conenctionStatus,
+      socket,
     };
   }, [conenctionStatus]);
 

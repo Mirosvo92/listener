@@ -1,9 +1,13 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import { networkReducer } from './slices/networks/networks';
+import { tokensReducer } from './slices/tokens/slice';
+
+const entitiesReducer = combineReducers({
+  tokens: tokensReducer,
+});
 
 const rootReducer = combineReducers({
-  networks: networkReducer,
+  entities: entitiesReducer,
 });
 
 export const store = configureStore({

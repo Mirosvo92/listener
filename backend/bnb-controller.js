@@ -1,7 +1,6 @@
 const { events } = require('./events');
 const ethers = require('ethers');
-const { getDefaultProvider, getWebsocketProvider } = require('./services/provider-service');
-const { io } = require('./socket');
+const { getWebsocketProvider } = require('./services/provider-service');
 const { bnbAddress, wbnbAddress } = require('./constants');
 
 function isNewToken(address) {
@@ -31,13 +30,18 @@ async function getContractInfoByAbi(address, ABI) {
 
   return contract;
 }
-async function fnListener(contractAddress, param1, param2, event) {
+async function fnListener(contractAddress, param1, param2, event, io) {
   console.log('new transaction', event);
   console.log('param1', param1);
   console.log('param2', param2);
   const symbol = 'BNB';
   const balance = await checkBalance(param2);
-  io.to(contractAddress).emit('new-contract-trans', { balance, contractAddress, symbol, wallet: param2 });
+  io.to(contractAddress).emit(`new-contract-trans/${contractAddress}`, {
+    balance,
+    contractAddress,
+    symbol,
+    wallet: param2,
+  });
 }
 
 class BNBController {
@@ -46,13 +50,14 @@ class BNBController {
   listeningContracts = {};
 
   createContract(contractAddress) {
+    console.log(process.env.ankrBSCwebSocket);
     const provider = new ethers.providers.WebSocketProvider(process.env.ankrBSCwebSocket, 'mainnet');
     const contractABI = ['event Transfer(address indexed from, address indexed to, uint256 value)']; // Replace with your contract's ABI
     const contract = new ethers.Contract(contractAddress, contractABI, provider);
     return contract;
   }
 
-  listenNewPairs = async (socket) => {
+  listenNewPairs = async (io) => {
     const addresses = {
       factory: '0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73',
     };
@@ -69,11 +74,11 @@ class BNBController {
     );
     console.log('start listen new pairs');
     this.factory.on('PairCreated', (token0, token1, pairAddress) =>
-      this.pairCreatedListener(token0, token1, pairAddress, socket)
+      this.pairCreatedListener(token0, token1, pairAddress, io)
     );
   };
 
-  pairCreatedListener = async (token0, token1, pairAddress, socket) => {
+  pairCreatedListener = async (token0, token1, pairAddress, io) => {
     console.log(`
     New pair detected ${new Date()}
     =================
@@ -84,22 +89,24 @@ class BNBController {
 
     const tokenAddress = isNewToken(token0) ? token0 : token1;
     const contractInfo = await getContractInfoByAbi(tokenAddress, ['function symbol() view returns (string)']);
-    let symbol = 'unknown'
+    let symbol = 'unknown';
 
     try {
       symbol = await contractInfo.symbol();
     } catch (error) {
-      console.log('can not get symbol')
+      console.log('can not get symbol');
     }
 
     io.emit(events.NewPairCreated, { tokenAddress, symbol });
 
     if (this.pairCreatedCount === 20) {
-      this.factory.off('PairCreated', this.pairCreatedListener);
+      this.factory.off('PairCreated', (token0, token1, pairAddress) =>
+        this.pairCreatedListener(token0, token1, pairAddress, io)
+      );
     }
   };
 
-  listenTransactionsOnContract = async (contractAddress, socket) => {
+  listenTransactionsOnContract = async (contractAddress, socket, io) => {
     console.log('start listen transactions on contract,', contractAddress);
     //We will use contract address as room id.
     const room = io.sockets.adapter.rooms.get(contractAddress);
@@ -110,9 +117,8 @@ class BNBController {
       this.listeningContracts[contractAddress] = { contract: null, eventListener: null };
       this.listeningContracts[contractAddress]['contract'] = this.createContract(contractAddress);
       this.listeningContracts[contractAddress]['eventListener'] = function (param1, param2, event) {
-        return fnListener(contractAddress, param1, param2, event);
+        return fnListener(contractAddress, param1, param2, event, io);
       };
-
       this.listeningContracts[contractAddress].contract.on(
         'Transfer',
         this.listeningContracts[contractAddress].eventListener
@@ -125,7 +131,7 @@ class BNBController {
     socket.join(contractAddress);
   };
 
-  stopListenTransactionsOnContract = async (contractAddress, socket) => {
+  stopListenTransactionsOnContract = async (contractAddress, socket, io) => {
     console.log('stop listen transactions on contract', contractAddress);
     socket.leave(contractAddress);
     const room = io.sockets.adapter.rooms.get(contractAddress);
