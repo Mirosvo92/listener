@@ -1,7 +1,8 @@
 import axios from 'axios';
 
-const axiosInst = axios.create({
+export const axiosInst = axios.create({
   baseURL: 'http://localhost:3000',
+  withCredentials: true,
 });
 
 export const startListenNewPairs = () => {
@@ -17,4 +18,16 @@ export const listenContractTransactions = (address: string) => {
 };
 export const stopListenContractTransactions = (address: string) => {
   return axiosInst.get(`/stop-listener/bnb-contract/${address}`);
+};
+
+export const getNounce = () => {
+  return axiosInst.get('/auth/nonce');
+};
+
+export const login = (data: any) => {
+  return axiosInst.post('/auth/login', data);
+};
+
+export const verify = () => {
+  return axiosInst.get('/auth/verify');
 };
