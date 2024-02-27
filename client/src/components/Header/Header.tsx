@@ -1,13 +1,22 @@
 import { NavLink, matchPath, useLocation } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from 'src/store';
+import { getIsAuth, getUser, loginThunk } from 'src/store/slices/auth';
 
 export const Header = () => {
   const { pathname } = useLocation();
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(getUser);
+  const isAuth = useAppSelector(getIsAuth);
 
   const menuItems = [
     { to: 'bsc', title: 'BSC' },
     { to: 'eth', title: 'Ethereum' },
     { to: 'avax', title: 'Avax' },
   ];
+
+  const handleClick = async () => {
+    dispatch(loginThunk(null));
+  };
 
   return (
     <div className="flex items-center px-4 py-4 border-b-2 border-lime-600">
@@ -40,8 +49,13 @@ export const Header = () => {
           })}
         </ul>
       </nav>
-      <button className="ml-auto cursor-pointer inline-flex justify-center py-2 px-4 border border-lime-600 shadow-sm rounded-md text-lime-600 focus:outline-none uppercase hover:bg-lime-600 hover:text-white">
-        Connect Wallet
+      <button
+        onClick={handleClick}
+        className="ml-auto cursor-pointer inline-flex justify-center py-2 px-4 border border-lime-600 shadow-sm rounded-md text-lime-600 focus:outline-none uppercase hover:bg-lime-600 hover:text-white"
+      >
+        {isAuth
+          ? user.address.slice(0, 4) + '...' + user.address.slice(user.address.length - 4, user.address.length)
+          : 'Connect Wallet'}
       </button>
     </div>
   );
