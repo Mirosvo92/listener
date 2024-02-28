@@ -1,16 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8c5f20fe-1406-44b7-a929-04818f0b4e74" name="Default Changelist" comment="add">
+    <list default="true" id="8c5f20fe-1406-44b7-a929-04818f0b4e74" name="Default Changelist" comment="add git ignore">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/bnb-controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/bnb-controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/environments/.env.development" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/environments/.env.production" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/environments/.env.staging" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -134,7 +126,14 @@
       <option name="project" value="LOCAL" />
       <updated>1705419325214</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="add git ignore">
+      <created>1709042027654</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1709042027654</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -148,25 +147,26 @@
     <MESSAGE value="added wallet" />
     <MESSAGE value="added check symbol" />
     <MESSAGE value="add" />
-    <option name="LAST_COMMIT_MESSAGE" value="add" />
+    <MESSAGE value="add git ignore" />
+    <option name="LAST_COMMIT_MESSAGE" value="add git ignore" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="479" y="241" key="CommitChangelistDialog2" timestamp="1706000294002">
+    <state x="479" y="241" key="CommitChangelistDialog2" timestamp="1709042272619">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state x="479" y="241" key="CommitChangelistDialog2/1792.25.1920.1055/0.0.1792.1120@0.0.1792.1120" timestamp="1706000294002" />
+    <state x="479" y="241" key="CommitChangelistDialog2/1792.25.1920.1055/0.0.1792.1120@0.0.1792.1120" timestamp="1709042272619" />
     <state x="179" y="107" key="DiffContextDialog" timestamp="1705410208323">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
     <state x="179" y="107" key="DiffContextDialog/1792.25.1920.1055/0.0.1792.1120@0.0.1792.1120" timestamp="1705410208323" />
-    <state x="496" y="297" key="Vcs.Push.Dialog.v2" timestamp="1705410604480">
+    <state x="496" y="297" key="Vcs.Push.Dialog.v2" timestamp="1709042278402">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state x="496" y="297" key="Vcs.Push.Dialog.v2/1792.25.1920.1055/0.0.1792.1120@0.0.1792.1120" timestamp="1705410604480" />
-    <state x="697" y="478" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1705578251192">
+    <state x="496" y="297" key="Vcs.Push.Dialog.v2/1792.25.1920.1055/0.0.1792.1120@0.0.1792.1120" timestamp="1709042278402" />
+    <state x="697" y="478" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1709042016359">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state x="697" y="478" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/1792.25.1920.1055/0.0.1792.1120@0.0.1792.1120" timestamp="1705578251192" />
+    <state x="697" y="478" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/1792.25.1920.1055/0.0.1792.1120@0.0.1792.1120" timestamp="1709042016359" />
     <state x="597" y="315" width="597" height="518" key="find.popup" timestamp="1705579019507">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
